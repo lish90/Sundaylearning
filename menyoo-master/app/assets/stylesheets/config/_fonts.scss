@@ -1,0 +1,31 @@
+// Import Google fonts
+@import url("https://fonts.googleapis.com/css?family=Comfortaa:400,700|Roboto:300,400,500,700,900&display=swap");
+
+// Font families
+$body-font: 'Roboto', sans-serif;
+$headers-font: 'Roboto', sans-serif;
+$menyoo-font: 'Comfortaa', cursive;
+
+// Font sizes
+$font-size-body: 16px;
+$font-size-title-lg: 22px;
+$font-size-title: 18px;
+$font-size-small: 14px;
+$font-size-medium: 16px;
+$font-size-x-small: 11px;
+
+
+// Font colors
+$font-color-body: rgba(0,0,0,0.8);
+$font-color-light-grey: rgba(0,0,0,0.4);
+$font-color-dark-grey: rgba(0,0,0,0.65);
+
+// To use a font file (.woff) uncomment following lines
+// @font-face {
+//   font-family: "Font Name";
+//   src: font-url('FontFile.eot');
+//   src: font-url('FontFile.eot?#iefix') format('embedded-opentype'),
+//        font-url('FontFile.woff') format('woff'),
+//        font-url('FontFile.ttf') format('truetype')
+// }
+// $my-font: "Font Name";

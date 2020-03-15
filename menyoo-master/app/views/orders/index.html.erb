@@ -1,0 +1,61 @@
+<%  @page_title = "Your Order Summary" %>
+
+<!-- Conditional formatting of the tab buttons -->
+<% content_for(:tab_table_class, "tab_table_active") %>
+<!-- end -->
+
+<!-- Partial for the Modal -->
+<div class="checkedin-popup hide">
+  <%= render 'shared/checkedin' %>
+</div>
+<!-- end -->
+
+
+<!-- Calculation the total for the orders -->
+<% @order_total = 0 %>
+<% @orders.each do |order|  %>
+  <% @order_total = @order_total + order.dish.price %>
+<% end %>
+<!-- End Calculation -->
+
+<div class="table-header">
+  <h1><%= @restaurant.name %></h1>
+  <p class="blue-font">Table for <%= @booking.date.to_s(:table_time) %></p>
+</div>
+
+<div class="button-area">
+  <% if @attendee.payment == false  %>
+    <%= link_to restaurant_path(@restaurant) do %>
+      <button class = "button button-long">Add to Order</button>
+    <% end %>
+  <% end %>
+</div>
+
+<% @orders.each do |order|  %>
+
+  <div class="card-box-shadow card-large">
+    <div class="card-large-img">
+      <%= cl_image_tag(order.dish.photo,width: 400, height: 300, crop: :fill) %>
+    </div>
+    <div class="card-large-content">
+      <div class="card-order-add-remove">
+        <h3><%= order.dish.name %></h3>
+
+        <%= link_to ('<i class="fas fa-minus-circle button-delete"></i>').html_safe, restaurant_booking_attendee_order_path(@restaurant, @booking, @attendee, order),
+          method: :delete,
+          data: {confirm: "Are you sure?"}  %>
+      </div>
+
+      <p> <%= order.dish.description %></p>
+
+      <div class="flex-between">
+        <p>Quantity: 1</p>
+        <p><%= humanized_money_with_symbol(order.dish.price) %></p>
+        <p><i class="far fa-clock"></i> <%= order.dish.prep_time %></p>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+

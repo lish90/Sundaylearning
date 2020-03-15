@@ -1,0 +1,2956 @@
+Last login: Sat Jul 27 12:25:54 on ttys000
+➜  rails-mister-cocktail git:(master) ✗ rails g controller Cocktails
+Running via Spring preloader in process 31443
+      create  app/controllers/cocktails_controller.rb
+      invoke  erb
+      create    app/views/cocktails
+      invoke  helper
+      create    app/helpers/cocktails_helper.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/cocktails.coffee
+      invoke    scss
+      create      app/assets/stylesheets/cocktails.scss
+➜  rails-mister-cocktail git:(master) ✗ rails db:migrate 
+➜  rails-mister-cocktail git:(master) ✗ rspec spec/models           
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self (FAILED - 1)
+  has many ingredients (FAILED - 2)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 3)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 4)
+  name is unique (FAILED - 5)
+  has many doses
+  should not be able to destroy self if has dose children
+
+Failures:
+
+  1) Cocktail should destroy child doses when destroying self
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/models/cocktail_spec.rb:36:in `block (2 levels) in <top (required)>'
+
+  2) Cocktail has many ingredients
+     Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+     
+     ActiveRecord::HasManyThroughOrderError:
+       Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+     # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <top (required)>'
+
+  3) Dose description cannot be blank
+     Failure/Error: expect(dose).not_to be_valid
+       expected #<Dose id: nil, description: "", cocktail_id: 49, ingredient_id: 42, created_at: nil, updated_at: nil> not to be valid
+     # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  4) Ingredient name cannot be blank
+     Failure/Error: expect(ingredient).not_to be_valid
+       expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+     # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  5) Ingredient name is unique
+     Failure/Error: expect(ingredient).not_to be_valid
+       expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+     # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.17736 seconds (files took 1.61 seconds to load)
+18 examples, 5 failures
+
+Failed examples:
+
+rspec ./spec/models/cocktail_spec.rb:34 # Cocktail should destroy child doses when destroying self
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 32434
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  should exist (FAILED - 9)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self (FAILED - 10)
+  has many ingredients (FAILED - 11)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 12)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 13)
+  name is unique (FAILED - 14)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: get :index, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#index is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:23:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: @Cocktails = Cocktail.find(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:16:in `show'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: @Cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: @Cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: @Cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: @Cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: @Cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  9) DosesController should exist
+     Failure/Error: expect(defined?(DosesController)).to eq(true)
+     
+       expected: true
+            got: nil
+     
+       (compared using ==)
+     # ./spec/controllers/doses_controller_spec.rb:80:in `block (2 levels) in <main>'
+
+  10) Cocktail should destroy child doses when destroying self
+      Failure/Error: validates presence: true
+      
+      ArgumentError:
+        You need to supply at least one attribute
+      # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+      # ./app/models/ingredient.rb:1:in `<main>'
+      # ./spec/models/cocktail_spec.rb:36:in `block (2 levels) in <main>'
+
+  11) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  12) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 60, ingredient_id: 50, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  13) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  14) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.31328 seconds (files took 1.17 seconds to load)
+31 examples, 14 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:79 # DosesController should exist
+rspec ./spec/models/cocktail_spec.rb:34 # Cocktail should destroy child doses when destroying self
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rails g controller Doses    
+Running via Spring preloader in process 32481
+      create  app/controllers/doses_controller.rb
+      invoke  erb
+      create    app/views/doses
+      invoke  helper
+      create    app/helpers/doses_helper.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/doses.coffee
+      invoke    scss
+      create      app/assets/stylesheets/doses.scss
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 33374
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+An error occurred while loading ./spec/controllers/cocktails_controller_spec.rb.
+Failure/Error: require "cocktails_controller"
+
+SyntaxError:
+  /Users/alishamusamabik/code/lish90/rails-mister-cocktail/app/controllers/cocktails_controller.rb:25: syntax error, unexpected end-of-input, expecting end
+# ./spec/controllers/cocktails_controller_spec.rb:3:in `<top (required)>'
+
+An error occurred while loading ./spec/routing/cocktails_routing_spec.rb.
+Failure/Error: require "cocktails_controller"
+
+SyntaxError:
+  /Users/alishamusamabik/code/lish90/rails-mister-cocktail/app/controllers/cocktails_controller.rb:25: syntax error, unexpected end-of-input, expecting end
+# ./spec/routing/cocktails_routing_spec.rb:4:in `<main>'
+
+Finished in 0.00032 seconds (files took 1.17 seconds to load)
+0 examples, 0 failures, 2 errors occurred outside of examples
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 33444
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 9)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 10)
+      assigns a newly created dose as @dose (FAILED - 11)
+      redirects to the created dose (FAILED - 12)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 13)
+      re-renders the 'new' template (FAILED - 14)
+  DELETE destroy
+    deletes a Dose (FAILED - 15)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 16)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 17)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 18)
+  name is unique (FAILED - 19)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy (FAILED - 20)
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: get :index, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#index is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:23:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.find(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:16:in `show'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  9) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  10) DosesController POST create with valid params creates a new Dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  15) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      ActionController::UrlGenerationError:
+        No route matches {:action=>"destroy", :controller=>"doses", :id=>16}
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  16) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  17) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 78, ingredient_id: 65, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  18) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  19) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+  20) DosesController routing routes to #destroy
+      Failure/Error: expect(:delete => "/doses/1").to route_to(controller: "doses", action: "destroy", id: "1")
+        No route matches "/doses/1"
+      # ./spec/routing/doses_routing_spec.rb:22:in `block (3 levels) in <main>'
+
+Finished in 0.37526 seconds (files took 0.90208 seconds to load)
+40 examples, 20 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+rspec ./spec/routing/doses_routing_spec.rb:21 # DosesController routing routes to #destroy
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rails routes
+                   Prefix Verb   URI Pattern                                                                              Controller#Action
+                     root GET    /                                                                                        pages#home
+     cocktail_ingredients GET    /cocktails/:cocktail_id/ingredients(.:format)                                            ingredients#index
+                          POST   /cocktails/:cocktail_id/ingredients(.:format)                                            ingredients#create
+  new_cocktail_ingredient GET    /cocktails/:cocktail_id/ingredients/new(.:format)                                        ingredients#new
+ edit_cocktail_ingredient GET    /cocktails/:cocktail_id/ingredients/:id/edit(.:format)                                   ingredients#edit
+      cocktail_ingredient GET    /cocktails/:cocktail_id/ingredients/:id(.:format)                                        ingredients#show
+                          PATCH  /cocktails/:cocktail_id/ingredients/:id(.:format)                                        ingredients#update
+                          PUT    /cocktails/:cocktail_id/ingredients/:id(.:format)                                        ingredients#update
+                          DELETE /cocktails/:cocktail_id/ingredients/:id(.:format)                                        ingredients#destroy
+           cocktail_doses GET    /cocktails/:cocktail_id/doses(.:format)                                                  doses#index
+                          POST   /cocktails/:cocktail_id/doses(.:format)                                                  doses#create
+        new_cocktail_dose GET    /cocktails/:cocktail_id/doses/new(.:format)                                              doses#new
+       edit_cocktail_dose GET    /cocktails/:cocktail_id/doses/:id/edit(.:format)                                         doses#edit
+            cocktail_dose GET    /cocktails/:cocktail_id/doses/:id(.:format)                                              doses#show
+                          PATCH  /cocktails/:cocktail_id/doses/:id(.:format)                                              doses#update
+                          PUT    /cocktails/:cocktail_id/doses/:id(.:format)                                              doses#update
+                          DELETE /cocktails/:cocktail_id/doses/:id(.:format)                                              doses#destroy
+                cocktails GET    /cocktails(.:format)                                                                     cocktails#index
+                          POST   /cocktails(.:format)                                                                     cocktails#create
+             new_cocktail GET    /cocktails/new(.:format)                                                                 cocktails#new
+            edit_cocktail GET    /cocktails/:id/edit(.:format)                                                            cocktails#edit
+                 cocktail GET    /cocktails/:id(.:format)                                                                 cocktails#show
+                          PATCH  /cocktails/:id(.:format)                                                                 cocktails#update
+                          PUT    /cocktails/:id(.:format)                                                                 cocktails#update
+                          DELETE /cocktails/:id(.:format)                                                                 cocktails#destroy
+       rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+       rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+     rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+➜  rails-mister-cocktail git:(master) ✗ rake        
+Running via Spring preloader in process 33978
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 9)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 10)
+      assigns a newly created dose as @dose (FAILED - 11)
+      redirects to the created dose (FAILED - 12)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 13)
+      re-renders the 'new' template (FAILED - 14)
+  DELETE destroy
+    deletes a Dose (FAILED - 15)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 16)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 17)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 18)
+  name is unique (FAILED - 19)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy (FAILED - 20)
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: get :index, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#index is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:23:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.find(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:16:in `show'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  9) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  10) DosesController POST create with valid params creates a new Dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  15) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  16) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  17) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 96, ingredient_id: 80, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  18) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  19) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+  20) DosesController routing routes to #destroy
+      Failure/Error: expect(:delete => "/doses/1").to route_to(controller: "doses", action: "destroy", id: "1")
+        No route matches "/doses/1"
+      # ./spec/routing/doses_routing_spec.rb:22:in `block (3 levels) in <main>'
+
+Finished in 0.37032 seconds (files took 0.99553 seconds to load)
+40 examples, 20 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+rspec ./spec/routing/doses_routing_spec.rb:21 # DosesController routing routes to #destroy
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 35266
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 1)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 2)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 3)
+      assigns a newly created cocktail as @cocktail (FAILED - 4)
+      redirects to the created cocktail (FAILED - 5)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 6)
+      re-renders the 'new' template (FAILED - 7)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 8)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 9)
+      assigns a newly created dose as @dose (FAILED - 10)
+      redirects to the created dose (FAILED - 11)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 12)
+      re-renders the 'new' template (FAILED - 13)
+  DELETE destroy
+    deletes a Dose (FAILED - 14)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 15)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 16)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 17)
+  name is unique (FAILED - 18)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.find(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:16:in `show'
+
+  2) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  3) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  4) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  5) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  6) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  7) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  8) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  9) DosesController POST create with valid params creates a new Dose
+     Failure/Error: @doses = Doses.new(doses_params)
+     
+     NameError:
+       uninitialized constant DosesController::Doses
+     # ./app/controllers/doses_controller.rb:11:in `create'
+     # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+     # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant DosesController::Doses
+     #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  10) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  15) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  16) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 114, ingredient_id: 95, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  17) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  18) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.34387 seconds (files took 1 second to load)
+40 examples, 18 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 35936
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 1)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 2)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 3)
+      assigns a newly created cocktail as @cocktail (FAILED - 4)
+      redirects to the created cocktail (FAILED - 5)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 6)
+      re-renders the 'new' template (FAILED - 7)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 8)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 9)
+      assigns a newly created dose as @dose (FAILED - 10)
+      redirects to the created dose (FAILED - 11)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 12)
+      re-renders the 'new' template (FAILED - 13)
+  DELETE destroy
+    deletes a Dose (FAILED - 14)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 15)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 16)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 17)
+  name is unique (FAILED - 18)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.find(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:16:in `show'
+
+  2) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  3) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  4) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  5) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  6) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  7) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: @cocktails = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  8) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  9) DosesController POST create with valid params creates a new Dose
+     Failure/Error: @doses = Doses.new(doses_params)
+     
+     NameError:
+       uninitialized constant DosesController::Doses
+     # ./app/controllers/doses_controller.rb:11:in `create'
+     # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+     # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant DosesController::Doses
+     #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  10) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  15) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  16) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 132, ingredient_id: 110, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  17) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  18) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.37623 seconds (files took 1.48 seconds to load)
+40 examples, 18 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 36106
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 9)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 10)
+      assigns a newly created dose as @dose (FAILED - 11)
+      redirects to the created dose (FAILED - 12)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 13)
+      re-renders the 'new' template (FAILED - 14)
+  DELETE destroy
+    deletes a Dose (FAILED - 15)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 16)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 17)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 18)
+  name is unique (FAILED - 19)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: expect(assigns(:cocktails)).to eq([cocktail])
+     
+       expected: [#<Cocktail id: 138, name: "Mojito", created_at: "2019-07-27 14:56:02", updated_at: "2019-07-27 14:56:02">]
+            got: nil
+     
+       (compared using ==)
+     # ./spec/controllers/cocktails_controller_spec.rb:24:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.find(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:16:in `show'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: cocktail = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: cocktail = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: cocktail = Cocktail.new(Cocktail_params)
+     
+     NameError:
+       uninitialized constant CocktailsController::Cocktail_params
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant CocktailsController::Cocktail_params
+     #   ./app/controllers/cocktails_controller.rb:11:in `create'
+
+  9) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  10) DosesController POST create with valid params creates a new Dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  15) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  16) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  17) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 150, ingredient_id: 125, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  18) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  19) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.29066 seconds (files took 0.87969 seconds to load)
+40 examples, 19 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 36367
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 9)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 10)
+      assigns a newly created dose as @dose (FAILED - 11)
+      redirects to the created dose (FAILED - 12)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 13)
+      re-renders the 'new' template (FAILED - 14)
+  DELETE destroy
+    deletes a Dose (FAILED - 15)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 16)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 17)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 18)
+  name is unique (FAILED - 19)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: expect(assigns(:cocktails)).to eq([cocktail])
+     
+       expected: [#<Cocktail id: 156, name: "Mojito", created_at: "2019-07-27 14:58:03", updated_at: "2019-07-27 14:58:03">]
+            got: nil
+     
+       (compared using ==)
+     # ./spec/controllers/cocktails_controller_spec.rb:24:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.find(cocktail_params)
+     
+     NameError:
+       undefined local variable or method `cocktail_params' for #<CocktailsController:0x00007fd608e6b938>
+       Did you mean?  Cocktail_params
+                      cocktail_path
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: cocktail = Cocktail.new(cocktail_params)
+     
+     NameError:
+       undefined local variable or method `cocktail_params' for #<CocktailsController:0x00007fd608eb9430>
+       Did you mean?  Cocktail_params
+                      cocktail_path
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(cocktail_params)
+     
+     NameError:
+       undefined local variable or method `cocktail_params' for #<CocktailsController:0x00007fd608f378f8>
+       Did you mean?  Cocktail_params
+                      cocktail_path
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: cocktail = Cocktail.new(cocktail_params)
+     
+     NameError:
+       undefined local variable or method `cocktail_params' for #<CocktailsController:0x00007fd6090f2b98>
+       Did you mean?  Cocktail_params
+                      cocktail_path
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(cocktail_params)
+     
+     NameError:
+       undefined local variable or method `cocktail_params' for #<CocktailsController:0x00007fd608f614f0>
+       Did you mean?  Cocktail_params
+                      cocktail_path
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: cocktail = Cocktail.new(cocktail_params)
+     
+     NameError:
+       undefined local variable or method `cocktail_params' for #<CocktailsController:0x00007fd60c800748>
+       Did you mean?  Cocktail_params
+                      cocktail_path
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+
+  9) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  10) DosesController POST create with valid params creates a new Dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  15) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  16) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  17) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 168, ingredient_id: 140, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  18) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  19) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.33616 seconds (files took 0.90687 seconds to load)
+40 examples, 19 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 36460
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 9)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 10)
+      assigns a newly created dose as @dose (FAILED - 11)
+      redirects to the created dose (FAILED - 12)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 13)
+      re-renders the 'new' template (FAILED - 14)
+  DELETE destroy
+    deletes a Dose (FAILED - 15)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 16)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 17)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 18)
+  name is unique (FAILED - 19)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: expect(assigns(:cocktails)).to eq([cocktail])
+     
+       expected: [#<Cocktail id: 174, name: "Mojito", created_at: "2019-07-27 14:58:42", updated_at: "2019-07-27 14:58:42">]
+            got: nil
+     
+       (compared using ==)
+     # ./spec/controllers/cocktails_controller_spec.rb:24:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.find(params)
+     
+     ActiveRecord::RecordNotFound:
+       Couldn't find Cocktail with 'id'={"id"=>"175", "controller"=>"cocktails", "action"=>"show"}
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+
+  9) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  10) DosesController POST create with valid params creates a new Dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  15) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  16) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  17) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 186, ingredient_id: 155, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  18) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  19) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.30612 seconds (files took 0.89689 seconds to load)
+40 examples, 19 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 36537
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails (FAILED - 1)
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 2)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 3)
+  POST create
+    with valid params
+      creates a new Cocktail (FAILED - 4)
+      assigns a newly created cocktail as @cocktail (FAILED - 5)
+      redirects to the created cocktail (FAILED - 6)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail (FAILED - 7)
+      re-renders the 'new' template (FAILED - 8)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 9)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 10)
+      assigns a newly created dose as @dose (FAILED - 11)
+      redirects to the created dose (FAILED - 12)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 13)
+      re-renders the 'new' template (FAILED - 14)
+  DELETE destroy
+    deletes a Dose (FAILED - 15)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 16)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 17)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 18)
+  name is unique (FAILED - 19)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET index assigns all cocktails as @cocktails
+     Failure/Error: expect(assigns(:cocktails)).to eq([cocktail])
+     
+       expected: [#<Cocktail id: 192, name: "Mojito", created_at: "2019-07-27 14:59:19", updated_at: "2019-07-27 14:59:19">]
+            got: nil
+     
+       (compared using ==)
+     # ./spec/controllers/cocktails_controller_spec.rb:24:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.find(params)
+     
+     ActiveRecord::RecordNotFound:
+       Couldn't find Cocktail with 'id'={"id"=>"193", "controller"=>"cocktails", "action"=>"show"}
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+
+  3) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  4) CocktailsController POST create with valid params creates a new Cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:47:in `block (5 levels) in <top (required)>'
+     # ./spec/controllers/cocktails_controller_spec.rb:46:in `block (4 levels) in <top (required)>'
+
+  5) CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:52:in `block (4 levels) in <top (required)>'
+
+  6) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:58:in `block (4 levels) in <top (required)>'
+
+  7) CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:65:in `block (4 levels) in <top (required)>'
+
+  8) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: cocktail = Cocktail.new(params)
+     
+     ActiveModel::ForbiddenAttributesError:
+       ActiveModel::ForbiddenAttributesError
+     # ./app/controllers/cocktails_controller.rb:11:in `create'
+     # ./spec/controllers/cocktails_controller_spec.rb:70:in `block (4 levels) in <top (required)>'
+
+  9) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  10) DosesController POST create with valid params creates a new Dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController POST create with valid params assigns a newly created dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  12) DosesController POST create with valid params redirects to the created dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  13) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  14) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  15) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  16) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  17) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 204, ingredient_id: 170, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  18) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  19) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.29048 seconds (files took 0.88158 seconds to load)
+40 examples, 19 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:21 # CocktailsController GET index assigns all cocktails as @cocktails
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:45 # CocktailsController POST create with valid params creates a new Cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:51 # CocktailsController POST create with valid params assigns a newly created cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:64 # CocktailsController POST create with invalid params assigns a newly created but unsaved cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ rake
+Running via Spring preloader in process 36811
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+CocktailsController
+  GET index
+    assigns all cocktails as @cocktails
+  GET show
+    assigns the requested cocktail as @cocktail (FAILED - 1)
+  GET new
+    assigns a new cocktail as @cocktail (FAILED - 2)
+  POST create
+    with valid params
+      creates a new Cocktail
+      assigns a newly created cocktail as @cocktail
+      redirects to the created cocktail (FAILED - 3)
+    with invalid params
+      assigns a newly created but unsaved cocktail as @cocktail
+      re-renders the 'new' template (FAILED - 4)
+
+DosesController
+  GET new
+    assigns a new dose as @dose (FAILED - 5)
+  POST create
+    with valid params
+      creates a new Dose (FAILED - 6)
+      assigns a newly created dose as @dose (FAILED - 7)
+      redirects to the created dose (FAILED - 8)
+    with invalid params
+      assigns a newly created but unsaved dose as @dose (FAILED - 9)
+      re-renders the 'new' template (FAILED - 10)
+  DELETE destroy
+    deletes a Dose (FAILED - 11)
+
+Cocktail
+  has a name
+  name cannot be blank
+  name is unique
+  has many doses
+  should destroy child doses when destroying self
+  has many ingredients (FAILED - 12)
+
+Dose
+  has a description
+  description cannot be blank (FAILED - 13)
+  belongs to a cocktail
+  belongs to an ingredient
+  cocktail cannot be blank
+  ingredient cannot be blank
+  is unique for a given cocktail/ingredient couple
+
+Ingredient
+  has a name
+  name cannot be blank (FAILED - 14)
+  name is unique (FAILED - 15)
+  has many doses
+  should not be able to destroy self if has dose children
+
+CocktailsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #create
+
+DosesController
+  routing
+    routes to #new
+    routes to #create
+    routes to #destroy
+
+Failures:
+
+  1) CocktailsController GET show assigns the requested cocktail as @cocktail
+     Failure/Error: params.require(:cocktail).permit(:name)
+     
+     ActionController::ParameterMissing:
+       param is missing or the value is empty: cocktail
+     # ./app/controllers/cocktails_controller.rb:27:in `cocktail_params'
+     # ./app/controllers/cocktails_controller.rb:16:in `show'
+     # ./spec/controllers/cocktails_controller_spec.rb:31:in `block (3 levels) in <top (required)>'
+
+  2) CocktailsController GET new assigns a new cocktail as @cocktail
+     Failure/Error: get :new, params: {}
+     
+     ActionController::UnknownFormat:
+       CocktailsController#new is missing a template for this request format and variant.
+     
+       request.formats: ["text/html"]
+       request.variant: []
+     
+       NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+     # ./spec/controllers/cocktails_controller_spec.rb:38:in `block (3 levels) in <top (required)>'
+
+  3) CocktailsController POST create with valid params redirects to the created cocktail
+     Failure/Error: expect(response).to redirect_to(Cocktail.last)
+     
+       Expected response to be a <3XX: redirect>, but was a <204: No Content>
+       Response body: 
+     # ./spec/controllers/cocktails_controller_spec.rb:59:in `block (4 levels) in <top (required)>'
+
+  4) CocktailsController POST create with invalid params re-renders the 'new' template
+     Failure/Error: expect(response).to render_template("new")
+       expecting <"new"> but rendering with <[]>
+     # ./spec/controllers/cocktails_controller_spec.rb:71:in `block (4 levels) in <top (required)>'
+
+  5) DosesController GET new assigns a new dose as @dose
+     Failure/Error: validates presence: true
+     
+     ArgumentError:
+       You need to supply at least one attribute
+     # ./app/models/ingredient.rb:3:in `<class:Ingredient>'
+     # ./app/models/ingredient.rb:1:in `<main>'
+     # ./spec/controllers/doses_controller_spec.rb:12:in `block (2 levels) in <main>'
+
+  6) DosesController POST create with valid params creates a new Dose
+     Failure/Error: @doses = Doses.new(doses_params)
+     
+     NameError:
+       uninitialized constant DosesController::Doses
+     # ./app/controllers/doses_controller.rb:11:in `create'
+     # ./spec/controllers/doses_controller_spec.rb:39:in `block (5 levels) in <main>'
+     # ./spec/controllers/doses_controller_spec.rb:38:in `block (4 levels) in <main>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant DosesController::Doses
+     #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  7) DosesController POST create with valid params assigns a newly created dose as @dose
+     Failure/Error: @doses = Doses.new(doses_params)
+     
+     NameError:
+       uninitialized constant DosesController::Doses
+     # ./app/controllers/doses_controller.rb:11:in `create'
+     # ./spec/controllers/doses_controller_spec.rb:44:in `block (4 levels) in <main>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant DosesController::Doses
+     #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  8) DosesController POST create with valid params redirects to the created dose
+     Failure/Error: @doses = Doses.new(doses_params)
+     
+     NameError:
+       uninitialized constant DosesController::Doses
+     # ./app/controllers/doses_controller.rb:11:in `create'
+     # ./spec/controllers/doses_controller_spec.rb:50:in `block (4 levels) in <main>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant DosesController::Doses
+     #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  9) DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+     Failure/Error: @doses = Doses.new(doses_params)
+     
+     NameError:
+       uninitialized constant DosesController::Doses
+     # ./app/controllers/doses_controller.rb:11:in `create'
+     # ./spec/controllers/doses_controller_spec.rb:57:in `block (4 levels) in <main>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant DosesController::Doses
+     #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  10) DosesController POST create with invalid params re-renders the 'new' template
+      Failure/Error: @doses = Doses.new(doses_params)
+      
+      NameError:
+        uninitialized constant DosesController::Doses
+      # ./app/controllers/doses_controller.rb:11:in `create'
+      # ./spec/controllers/doses_controller_spec.rb:62:in `block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant DosesController::Doses
+      #   ./app/controllers/doses_controller.rb:11:in `create'
+
+  11) DosesController DELETE destroy deletes a Dose
+      Failure/Error: delete :destroy, params: { id: @dose.id }
+      
+      AbstractController::ActionNotFound:
+        The action 'destroy' could not be found for DosesController
+      # ./spec/controllers/doses_controller_spec.rb:72:in `block (4 levels) in <main>'
+      # ./spec/controllers/doses_controller_spec.rb:71:in `block (3 levels) in <main>'
+
+  12) Cocktail has many ingredients
+      Failure/Error: expect(cocktail.ingredients.count).to eq(0)
+      
+      ActiveRecord::HasManyThroughOrderError:
+        Cannot have a has_many :through association 'Cocktail#ingredients' which goes through 'Cocktail#doses' before the through association is defined.
+      # ./spec/models/cocktail_spec.rb:44:in `block (2 levels) in <main>'
+
+  13) Dose description cannot be blank
+      Failure/Error: expect(dose).not_to be_valid
+        expected #<Dose id: nil, description: "", cocktail_id: 225, ingredient_id: 185, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/dose_spec.rb:31:in `block (2 levels) in <main>'
+
+  14) Ingredient name cannot be blank
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: nil, created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:19:in `block (2 levels) in <main>'
+
+  15) Ingredient name is unique
+      Failure/Error: expect(ingredient).not_to be_valid
+        expected #<Ingredient id: nil, name: "Lemon", created_at: nil, updated_at: nil> not to be valid
+      # ./spec/models/ingredient_spec.rb:25:in `block (2 levels) in <main>'
+
+Finished in 0.32066 seconds (files took 0.88378 seconds to load)
+40 examples, 15 failures
+
+Failed examples:
+
+rspec ./spec/controllers/cocktails_controller_spec.rb:29 # CocktailsController GET show assigns the requested cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:37 # CocktailsController GET new assigns a new cocktail as @cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:57 # CocktailsController POST create with valid params redirects to the created cocktail
+rspec ./spec/controllers/cocktails_controller_spec.rb:69 # CocktailsController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:28 # DosesController GET new assigns a new dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:37 # DosesController POST create with valid params creates a new Dose
+rspec ./spec/controllers/doses_controller_spec.rb:43 # DosesController POST create with valid params assigns a newly created dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:49 # DosesController POST create with valid params redirects to the created dose
+rspec ./spec/controllers/doses_controller_spec.rb:56 # DosesController POST create with invalid params assigns a newly created but unsaved dose as @dose
+rspec ./spec/controllers/doses_controller_spec.rb:61 # DosesController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/doses_controller_spec.rb:69 # DosesController DELETE destroy deletes a Dose
+rspec ./spec/models/cocktail_spec.rb:41 # Cocktail has many ingredients
+rspec ./spec/models/dose_spec.rb:29 # Dose description cannot be blank
+rspec ./spec/models/ingredient_spec.rb:15 # Ingredient name cannot be blank
+rspec ./spec/models/ingredient_spec.rb:22 # Ingredient name is unique
+
+/Users/alishamusamabik/.rbenv/versions/2.6.3/bin/ruby -I/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/lib:/Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-support-3.8.2/lib /Users/alishamusamabik/.rbenv/versions/2.6.3/lib/ruby/gems/2.6.0/gems/rspec-core-3.8.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb failed
+➜  rails-mister-cocktail git:(master) ✗ 

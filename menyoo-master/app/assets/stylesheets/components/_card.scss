@@ -1,0 +1,399 @@
+.card-box-shadow {
+  overflow: hidden;
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  align-items: center;
+  border-radius: 8px;
+}
+
+.card-large {
+  display: flex;
+  height: $card-large-height;
+  margin: 16px 0px;
+  h3 {
+    line-height: 1.0rem;
+  }
+}
+
+.card-large img {
+  height: $card-large-height;
+  width: $card-large-height;
+  object-fit: cover;
+}
+
+.card-carousel {
+  display: flex;
+  height: 150px;
+  margin: 8px 0px 4px 0px;
+  position: relative;
+  h3 {
+    line-height: 1.0rem;
+  }
+}
+
+.card-carousel-img img {
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+.card-medium {
+  display: flex;
+  height: $card-medium-height;
+  margin: 16px 0px;
+}
+
+.card-medium-attendees {
+  display: flex;
+  height: $card-medium-height;
+  margin: 16px 0px;
+  width: 100%;
+  img {
+    margin-right: 24px;
+  }
+}
+
+.card-small {
+  display: flex;
+  height: $card-small-height;
+  margin: 16px 0px;
+}
+
+
+.card-medium img {
+  height: $card-large-height;
+  width: $card-large-height;
+  object-fit: cover;
+}
+
+
+.card-small img {
+  height: $card-small-height;
+  width: $card-small-height;
+  object-fit: cover;
+}
+
+.card-large-content {
+  padding: 16px;
+  width: 100%;
+  max-height: 145px;
+    p {
+    font-size: $font-size-small;
+    }
+    .timeprice{
+      display:flex;
+      justify-content:space-between;
+      width: 100px;
+      p {
+        color: $menyoo-blue;
+        font-weight:bold;
+        padding:5px;
+      }
+    }
+  }
+
+.card-large-content-bookings {
+  padding: 16px;
+  width: 100%;
+  img {
+    height: 48px;
+    width: 48px;
+  }
+}
+
+.card-medium-content {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+.card-order-dishes {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 7px;
+  width: 100%;
+  height: 20px;
+  display: flex;
+  .dish-quantity {
+    width: 50px;
+    padding-left: 45px;
+  }
+  p {
+    font-size: $font-size-small;
+  }
+  .dish-name {
+    width: 200px;
+    p {
+      color: $gray;
+    }
+  }
+  .dish-price {
+    padding-right: 10px;
+    padding-left: 30px;
+  }
+}
+
+.order-status-card {
+  display: flex;
+}
+
+.card-flex {
+  display: flex;
+  align-items: center;
+}
+
+.card-order {
+  flex-direction: row;
+}
+
+.card-submenu {
+  padding: 16px;
+  h3 {
+    margin-bottom: 0;
+    color: $font-color-dark-grey;
+  }
+}
+
+.card-booking-index {
+  margin-top: 16px;
+  padding: 30px;
+  background-color: white;
+}
+
+.body-icon {
+  font-size: 19px;
+  color: $font-color-light-grey;
+  h3 {
+    font-size: 16px;
+    color: $font-color-dark-grey;
+  }
+}
+
+// // Original
+// background-color: white;
+// color: $font-color-light-grey
+
+// $font-color-light-grey
+// $font-color-dark-grey
+// $navbar-gray
+// $menyoo-blue
+// $menyoo-gray
+// medium blue: #8493A3
+// light blue: #C1CFDC
+
+.card-invitation{
+  padding: 16px;
+}
+
+.card-order-summary {
+  padding-top: 10px;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.review-card{
+  overflow: hidden;
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 8px;
+  max-height: 400px;
+  img {
+    margin: 4px;
+  }
+}
+.review-content-stars{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  margin-bottom: 8px;
+  p{
+    margin:0;
+
+  }
+
+}
+
+.review-whole{
+  width: 100%;
+  margin-left: 16px;
+  max-height :400px;
+  small{
+    color: gray;
+
+  }
+}
+
+.review-avatar {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.icon-stars{
+    font-size: 11px;
+    color: $menyoo-blue;
+}
+
+.booktime {
+   color: $menyoo-blue;
+}
+
+#invitedat > p{
+  color: $headers-font;
+}
+
+.restaurant-name-card{
+  display: flex;
+  justify-content: space-between;
+  align-items:flex-end;
+  margin-bottom: 8px;
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+.reviews-count{
+  line-height: 18px;
+  }
+
+  .my-review-content-stars{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    margin-bottom: 4px;
+  }
+
+.card-order-container {
+  margin-bottom: 10px;
+  padding: 13px;
+}
+
+.container-to-order {
+  border-bottom: solid 1px $mid-gray;
+  padding-top: 10px;
+  .container-title {
+    color: $menyoo-gray;
+  }
+}
+
+.container-ordered {
+  padding-top: 10px;
+  .container-title {
+    color: $menyoo-gray;
+  }
+}
+
+
+.card-bill-paid {
+  text-align: center;
+  display: flex;
+  justify-content: text-around;
+  height: $card-medium-height;
+  margin: 16px 0px;
+  margin: 0 auto;
+  border-top: 1px solid $mid-gray;
+}
+
+.card-bill-paid-items{
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  padding: 20px;
+  width: 200px;
+
+}
+
+.card-order-add-remove {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-orderer {
+  margin-left: 10px;
+  margin-bottom: 14px;
+}
+
+.name-and-pay-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  button {
+    margin-right: 6px;
+    padding-right: 20px;
+    padding-left: 20px;
+    width: 90px;
+  }
+}
+
+.card-table-order-summary {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.card-bill-summary {
+  padding-top: 20px;
+  border-top: 1px solid $mid-gray;
+  padding-bottom: 20px;
+}
+
+
+.text-paid {
+  color: $mid-gray;
+}
+
+.text-left-to-pay {
+  font-weight: bold;
+  color: black;
+}
+
+.text-order-total {
+  color: $dark-gray;
+}
+
+.attendee-invite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+  form {
+    margin-right: 10px;
+    margin-bottom: 15px;
+  }
+}
+
+.dish-info {
+  padding-top: 5px;
+}
+
+h3.user-card-title {
+  margin: 0;
+}
+
+
+.my-review {
+  height: 140px;
+}
+
+.checkin-banner {
+  text-align: center;
+  color: white;
+  font-size: $font-size-small;
+  background-color: $menyoo-blue;
+  border-radius: 5px;
+}
+

@@ -1,0 +1,233 @@
+.button-area {
+  text-align: center;
+  align-items: center;
+  // .invitation-buton{
+  //   margin:5px;
+
+  // }
+}
+
+
+#delete-button {
+  position: absolute;
+  right: 19px;
+  top: 76px;
+  font-size: 18px;
+  display: none;
+  color: $menyoo-gray;
+}
+
+.search-area {
+  position: relative;
+}
+
+#delete-button-two {
+  position: absolute;
+  right: 19px;
+  top: 10px;
+  font-size: 18px;
+  display: none;
+  color: $menyoo-gray;
+}
+
+
+.button {
+  height: 32px;
+  background-color: $menyoo-blue;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 16px auto;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.button-invitation {
+  height: 32px;
+  background-color: $menyoo-blue;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 6px auto;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.decbutton {
+  height: 32px;
+  background-color: $menyoo-gray;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 6px auto;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.button-action {
+  height: 30px;
+  width: 60px;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  border-radius: 30px;
+  font-size: 14px;
+}
+
+ .pre-order {
+    font-size: 10px;
+    text-align: center;
+  }
+
+.button-invite {
+  background-color: $menyoo-blue;
+  width: 90px;
+  font-size: $font-size-small;
+}
+
+.button-color-blue {
+  background-color: $menyoo-blue;
+}
+
+.button-color-grey {
+  background-color: $font-color-light-grey;
+}
+
+
+.button-medium {
+  padding: 0px 48px;
+}
+
+.button-small {
+  padding: 0px 24px;
+}
+
+.button-search {
+  margin-top: 0px;
+}
+
+
+.button-long {
+  padding: 0px ;
+  width: 300px;
+}
+
+
+.button-short {
+  padding: 0px 15px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.button-paid {
+  color: white;
+  background-color: $mid-gray;
+}
+
+.button-unpaid {
+  color: white;
+  background-color: $dark-gray;
+}
+
+
+.button-checkin-summary {
+  padding: 0px 92px;
+}
+
+.button-place-order {
+  background-color: #D4D7DC;
+  padding: 0px 112px;
+}
+
+.button-payment {
+  padding-top: 20px;
+}
+
+
+.order-status {
+  width: 80px;
+  font-size: $font-size-small;
+  margin-right: 7px;
+  line-height: 2.5rem;
+  border: solid 1px;
+  border-radius: 8px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.order-status-ordered {
+  background-color: #33BC29;
+  color: white;
+}
+
+.order-status-not-ordered {
+  background-color: #D4D7DC;
+  color: white;
+}
+
+.button-grey {
+  height: 32px;
+  background-color: $font-color-light-grey;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 16px auto;
+  padding: 0px 24px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.button-avarage-rating {
+  height: 20px;
+  background-color: $menyoo-blue;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 8px auto;
+  padding: 0px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: $font-size-small;
+}
+
+.button-delete {
+  color: black;
+}
+
+.button_height > div {
+  margin-bottom:0;
+}
+
+
+.button-table-order {
+  margin-bottom: 64px;
+}
+
+.summary-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0px 20px 0px;
+  font-size: $font-size-title;
+}
+
+
+
+
+

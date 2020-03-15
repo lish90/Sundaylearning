@@ -1,0 +1,34 @@
+<!-- Conditional formatting of the tab buttons -->
+<% content_for(:tab_user_class, "tab_user_active") %>
+<!-- end -->
+<!-- Hide CheckedIn Button on Pages other than specific booking -->
+<% content_for(:nav_checkedin_class, "nav_checkedin_invisible") %>
+<!-- end -->
+<%  @page_title = @restaurant.name %>
+<h1>Reviews</h1>
+<% @reviews.each do |review| %>
+  <div class= "review-card">
+    <div class=review-avatar>
+      <%= cl_image_tag review.user.photo, class: "avatar" %>
+      <div>
+        <small><%= review.user.first_name %></small>
+      </div>
+    </div>
+    <div class="review-whole">
+      <div class="restaurant-name-card">
+        <strong><%= review.title %></strong>
+        <div style="line-height: 18px; font-size: 15px;">
+          <div class="review-content-stars">
+            <div style="display:flex;">
+              <% review.rating.times do %>
+                <i class="fas fa-star icon-stars"></i>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p><%= review.content %></p>
+      <small><%= review.booking.date.strftime("%d/%m/%Y") %></small>
+    </div>
+  </div>
+<% end %>

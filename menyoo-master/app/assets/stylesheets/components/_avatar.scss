@@ -1,0 +1,75 @@
+.avatar-small {
+  width: 24px;
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.avatar-large {
+  width: 56px;
+  border-radius: 50%;
+}
+
+.avatar-large-blue {
+  width: 56px;
+  border-radius: 50%;
+  border: $menyoo-blue 5px solid;
+}
+
+.avatar-extra-large {
+  width: 112px;
+  border-radius: 50%;
+}
+
+.avatar-booking {
+  width: 56px;
+  border-radius: 50%;
+  position: absolute;
+  right: 55px;
+  top: 14px;
+  border: white 3px solid;
+}
+
+.close-button {
+  color: white;
+  width: 90px;
+  font-size: $font-size-x-small;
+  text-align: center;
+  border-radius: 8px;
+  position: absolute;
+  left: 15px;
+  top: 118px;
+  padding: 2px;
+  border: 1px solid white;
+  background-color: rgba(0,0,0,0.7);
+}
+
+
+.red-notification {
+  width: 19px;
+  border-radius: 50%;
+  position: absolute;
+  right: -10px;
+  top: -11px;
+  border: white 1px solid;
+}
+
+.avatar-bordered {
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border: white 1px solid;
+}
+.avatar-square {
+  width: 40px;
+  border-radius: 0px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border: white 1px solid;
+}
+
+.attendee-accepted {
+  border: 4px solid $menyoo-blue;
+}

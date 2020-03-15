@@ -1,0 +1,45 @@
+<div class="tabbar-ios">
+  <div class="tabbar-content">
+    <!-- Home Tab -->
+    <div class="navbar-back">
+      <%= link_to root_path do %>
+        <p class="<%= yield(:tab_home_class) %>"><i class="fas fa-home"></i></p>
+      <% end %>
+    </div>
+    <!-- Your Table Tab -->
+    <div class="navbar-title">
+      <% if user_signed_in? %>
+        <% if bookings_open_for_user(current_user).count != 0 %>
+          <!--           <% @booking = bookings_open_for_user(current_user).last %>
+          <% @restaurant = @booking.restaurant %> -->
+          <%=  link_to restaurant_booking_path(@restaurant_first, @booking_first) do %>
+            <p class="<%= yield(:tab_table_class) %>"><i class="fas fa-utensils"></i></p>
+          <% end %>
+        <% else %>
+          <p class = "tab-unavailable"><i class="fas fa-utensils"></i></p>
+        <% end %>
+      <% else %>
+        <p class = "tab-unavailable"><i class="fas fa-utensils"></i></p>
+      <% end %>
+    </div>
+    <!-- User Profile Tab -->
+    <div class="navbar-title">
+      <% if user_signed_in? %>
+        <%=  link_to user_path(current_user) do %>
+          <div class="navbar-checkin">
+            <p class="<%= yield(:tab_user_class) %>"><i class="fas fa-user"></i></p>
+          </div>
+        <% end %>
+      <% else %>
+        <%=  link_to new_user_session_path do %>
+          <div class="navbar-checkin">
+            <p class="tab-unavailable"><i class="fas fa-user-times"></i></p>
+          </div>
+        <% end %>
+      <% end %>
+      <% if attendee_invitations_for_user(current_user).count != 0 %>
+        <%= image_tag("color-orange.png", :class => "red-notification") %>
+      <% end %>
+    </div>
+  </div>
+</div>
