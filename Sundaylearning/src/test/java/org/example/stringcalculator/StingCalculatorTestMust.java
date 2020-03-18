@@ -14,7 +14,6 @@ public class StingCalculatorTestMust {
     // Assert
         Assert.assertEquals(0,result);
     }
-
     @Test
     public void stringFourToReturnIntFour(){
     //Arrange
@@ -34,12 +33,23 @@ public class StingCalculatorTestMust {
         Assert.assertEquals(8,result);
     }
     @Test
-    public void stingAddingTwoNumberReturnThree(){
+    public void stringTwoNumbersOneAddTwoReturnThree(){
         //Arrange
         StringCalculator stringCalculator = new StringCalculator();
         //  Act
-        int result = stringCalculator.add("8");
+        int result = stringCalculator.add("1,2");
         //Assert
-        Assert.assertEquals(8,result);
+        Assert.assertEquals(3,result);
     }
+    @Test
+    public void stringArbitrarynumberSize() {
+        //Arrange
+        StringCalculator stringCalculator = new StringCalculator();
+        //  Act
+        int result = stringCalculator.add("1,2,3,4,5,6,7,8,9");
+        //Assert
+        Assert.assertEquals(45, result);
+
+    }
+
 }
